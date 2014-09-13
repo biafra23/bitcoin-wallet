@@ -22,14 +22,14 @@ import org.slf4j.LoggerFactory;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.IBinder;
+import android.os.RemoteException;
 import de.schildbach.wallet.WalletApplication;
 
 /**
  * @author Andreas Schildbach
  */
-public class PluginServiceImpl extends Service implements PluginService
+public class PluginServiceImpl extends Service
 {
 	private WalletApplication application;
 
@@ -43,15 +43,14 @@ public class PluginServiceImpl extends Service implements PluginService
 		application = (WalletApplication) getApplication();
 	}
 
-	public class LocalBinder extends Binder
+	private final IPluginService.Stub mBinder = new IPluginService.Stub()
 	{
-		PluginService getService()
+		@Override
+		public String getAddress() throws RemoteException
 		{
-			return PluginServiceImpl.this;
+			return application.determineSelectedAddress().toString();
 		}
-	}
-
-	private final IBinder mBinder = new LocalBinder();
+	};
 
 	@Override
 	public IBinder onBind(final Intent intent)
@@ -67,11 +66,5 @@ public class PluginServiceImpl extends Service implements PluginService
 		log.debug(".onUnbind()");
 
 		return super.onUnbind(intent);
-	}
-
-	@Override
-	public String getAddress()
-	{
-		return application.determineSelectedAddress().toString();
 	}
 }
