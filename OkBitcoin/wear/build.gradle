@@ -12,8 +12,17 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('/Users/biafra/.android/debug.keystore')
+            storePassword 'android'
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
