@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
@@ -32,21 +33,23 @@ public class MyActivity extends Activity {
 
     public static final String TAG = "OkBitcoin";
     private static final long CONNECTION_TIME_OUT_MS = 1000;
-    private static final String MESSAGE = "Foo23";
+    private static final String MESSAGE = "getAddress";
     private TextView mTextView;
     private final static QRCodeWriter QR_CODE_WRITER = new QRCodeWriter();
     //    private static final Logger log = LoggerFactory.getLogger(Qr.class);
-    private ImageView mImageView;
+    private static ImageView mImageView;
     private static final int SPEECH_REQUEST_CODE = 0;
 
     private String nodeId; // the connected device to send the message to
     private GoogleApiClient mGoogleApiClient;
     public static final String START_ACTIVITY_PATH = "/start/MainActivity";
 
+    private static Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        handler = new Handler();
         Log.i(TAG, "onCreate()");
         setContentView(R.layout.activity_my);
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
@@ -56,11 +59,11 @@ public class MyActivity extends Activity {
 
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 mImageView = (ImageView) stub.findViewById(R.id.qr_code);
-                mImageView.setImageBitmap(bitmap("bitcoin:mkCLjaXncyw8eSWJBcBtnTgviU85z5PfwS?amount=0.0005", 200));
+                mImageView.setImageBitmap(bitmap("bitcoin:abdcertfdfxxxxxxxxhfhghhsggdsdjsdjkx?amount=0.0005", 200));
                 mImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        sendToast();
+                        sendCommand();
 //                        displaySpeechRecognizer();
                     }
                 });
@@ -167,7 +170,7 @@ public class MyActivity extends Activity {
         }).start();
     }
 
-    private void sendToast() {
+    private void sendCommand() {
         Log.d(TAG, "nodeId: " + nodeId);
         if (nodeId != null) {
             new Thread(new Runnable() {
@@ -176,9 +179,21 @@ public class MyActivity extends Activity {
                     mGoogleApiClient.blockingConnect(CONNECTION_TIME_OUT_MS, TimeUnit.MILLISECONDS);
                     Wearable.MessageApi.sendMessage(mGoogleApiClient, nodeId, MESSAGE, null);
                     mGoogleApiClient.disconnect();
-                    Log.d(TAG, "sendToast() done.");
+                    Log.d(TAG, "sendCommand() done.");
                 }
             }).start();
         }
+    }
+
+    public static void updateQrCode(final String path) {
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Updating image...");
+                mImageView.setImageBitmap(bitmap("bitcoin:" + path + "?amount=0.0005", 200));
+            }
+        });
+
     }
 }

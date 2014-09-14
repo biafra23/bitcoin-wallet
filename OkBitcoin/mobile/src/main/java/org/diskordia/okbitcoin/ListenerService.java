@@ -45,13 +45,19 @@ public class ListenerService extends WearableListenerService {
     private void showToast(String message) {
         Log.d(TAG, "showToast(): " + message);
 
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-        reply("Bar");
+        if ("getAddress".equals(message)) {
+            Toast.makeText(this, "Replying with address...", Toast.LENGTH_LONG).show();
+            reply("mkCLjaXncyw8eSWJBcBtnTgviU85z5PfwS");
+
+        } else {
+            Toast.makeText(this, "Ignored: " + message, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void reply(String message) {
-
+        Log.d(TAG, "reply(): " + message);
         mGoogleApiClient.blockingConnect(CONNECTION_TIME_OUT_MS, TimeUnit.MILLISECONDS);
         Wearable.MessageApi.sendMessage(mGoogleApiClient, mNodeId, message, null);
         mGoogleApiClient.disconnect();
