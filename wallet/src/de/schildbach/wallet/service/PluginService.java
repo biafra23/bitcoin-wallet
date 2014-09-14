@@ -29,11 +29,11 @@ import de.schildbach.wallet.WalletApplication;
 /**
  * @author Andreas Schildbach
  */
-public class PluginServiceImpl extends Service
+public class PluginService extends Service
 {
 	private WalletApplication application;
 
-	private static final Logger log = LoggerFactory.getLogger(PluginServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(PluginService.class);
 
 	@Override
 	public void onCreate()
