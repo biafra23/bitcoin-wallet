@@ -221,7 +221,14 @@
 
 		<service
 			android:name="de.schildbach.wallet.service.PluginService"
-			android:exported="true" />
+			android:exported="true"
+			android:permission="de.schildbach.wallet.permission.ACCESS_PLUGIN_SERVICE" />
 	</application>
+
+	<permission
+		android:name="de.schildbach.wallet.permission.ACCESS_PLUGIN_SERVICE"
+		android:description="@string/permission_access_plugin_service_description"
+		android:label="@string/permission_access_plugin_service_label"
+		android:protectionLevel="signature" />
 
 </manifest>

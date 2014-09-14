@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+
+	<string name="permission_access_plugin_service_label">Access Bitcoin Wallet plugin service</string>
+	<string name="permission_access_plugin_service_description">Allows plugins to access the plugin service in Bitcoin Wallet.</string>
+
+</resources>
