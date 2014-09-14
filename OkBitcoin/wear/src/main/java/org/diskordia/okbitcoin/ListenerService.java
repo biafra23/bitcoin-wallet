@@ -13,5 +13,7 @@ public class ListenerService extends WearableListenerService {
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
         Log.d(MyActivity.TAG, "onMessageReceived: " + messageEvent.getPath());
+
+        MyActivity.updateQrCode(messageEvent.getPath());
     }
 }
