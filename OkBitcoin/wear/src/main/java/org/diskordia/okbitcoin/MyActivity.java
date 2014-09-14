@@ -59,7 +59,7 @@ public class MyActivity extends Activity {
 
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 mImageView = (ImageView) stub.findViewById(R.id.qr_code);
-                mImageView.setImageBitmap(bitmap("bitcoin:abdcertfdfxxxxxxxxhfhghhsggdsdjsdjkx?amount=0.0005", 200));
+                mImageView.setImageBitmap(bitmap("bitcoin:1?amount=0.0005", 200));
                 mImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
